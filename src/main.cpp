@@ -72,16 +72,6 @@ int main(void)
 		glViewport(0, 0, width, height);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		//I'm using the old pipeline here just to test, you shouldn't learn this,
-		//Also It might not work on apple
-		glBegin(GL_TRIANGLES);
-		glColor3f(1, 0, 0);
-		glVertex2f(0,1);
-		glColor3f(0, 1, 0);
-		glVertex2f(1,-1);
-		glColor3f(0, 0, 1);
-		glVertex2f(-1,-1);
-		glEnd();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
