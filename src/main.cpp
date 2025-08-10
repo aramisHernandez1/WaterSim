@@ -86,7 +86,7 @@ int main(void)
 	Shader s;
 	s.loadShaderProgramFromFile(RESOURCES_PATH "vertex.vert", RESOURCES_PATH "fragment.frag");
 
-	
+	GLint scaleLocation;
 
 
 	while (!glfwWindowShouldClose(window))
@@ -97,7 +97,13 @@ int main(void)
 		glViewport(0, 0, width, height);
 		glClear(GL_COLOR_BUFFER_BIT);
 
+
 		s.bind();
+
+		float time = glfwGetTime();
+		float scale = sin(time) + 0.1f;
+		scaleLocation = s.getUniform("scaleValue");
+		glUniform1f(scaleLocation, scale);
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 

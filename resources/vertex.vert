@@ -2,9 +2,12 @@
 
 layout (location = 0) in vec3 p;
 
+vec3 pos;
+uniform float scaleValue;
+
 void main()
 {
-	
-	gl_Position = vec4(p, 1);
+	pos = p * scaleValue;
+	gl_Position = vec4(pos, 1);
 
 }
