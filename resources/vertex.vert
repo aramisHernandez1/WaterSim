@@ -2,12 +2,10 @@
 
 layout (location = 0) in vec3 p;
 
-vec3 pos;
-uniform float scaleValue;
+uniform mat4 ourTranslation;
 
 void main()
 {
-	pos = p * scaleValue;
-	gl_Position = vec4(pos, 1);
+	gl_Position = ourTranslation * vec4(p, 1);
 
 }

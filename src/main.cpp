@@ -5,6 +5,9 @@
 #include <demoShaderLoader.h>
 #include <iostream>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #define USE_GPU_ENGINE 0
 extern "C"
@@ -86,7 +89,7 @@ int main(void)
 	Shader s;
 	s.loadShaderProgramFromFile(RESOURCES_PATH "vertex.vert", RESOURCES_PATH "fragment.frag");
 
-	GLint scaleLocation;
+	GLint translationLocation;
 
 
 	while (!glfwWindowShouldClose(window))
@@ -102,8 +105,16 @@ int main(void)
 
 		float time = glfwGetTime();
 		float scale = sin(time) + 0.1f;
-		scaleLocation = s.getUniform("scaleValue");
-		glUniform1f(scaleLocation, scale);
+		translationLocation = s.getUniform("ourTranslation");
+
+		//Creates identity matrix
+		glm::mat4 translation = glm::mat4(1.0f);
+		//Scalar vector for multiplication
+		glm::vec3 scalar = glm::vec3(scale * 2.0f, scale, 0.0f);
+
+		translation = glm::scale(translation, scalar);
+
+		glUniformMatrix4fv(translationLocation, 1, GL_TRUE, glm::value_ptr(translation));
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
