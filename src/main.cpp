@@ -1,13 +1,22 @@
+//Open GL Libs
 #include <glad/glad.h>
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
-#include <openglDebug.h>
-#include <demoShaderLoader.h>
-#include <iostream>
 
+//Standard Lib
+#include <iostream>
+#include<vector>
+
+//Glm Libs
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
+
+//My headers
+#include <Shape.hpp>
+#include <openglDebug.h>
+#include <demoShaderLoader.h>
 
 #define USE_GPU_ENGINE 0
 extern "C"
@@ -85,11 +94,15 @@ int main(void)
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
+	std::vector<glm::vec3> vertice = { glm::vec3(0.25f, 0.25f, 0.0f), glm::vec3(0.5f, 0.25f, 0.0f), glm::vec3(0.30f, 0.0f, 0.0f) };
+	Shape triangle = Shape(vertice);
+
 	//shader loading example
 	Shader s;
 	s.loadShaderProgramFromFile(RESOURCES_PATH "vertex.vert", RESOURCES_PATH "fragment.frag");
 
 	GLint translationLocation;
+
 
 
 	while (!glfwWindowShouldClose(window))
@@ -117,6 +130,8 @@ int main(void)
 		glUniformMatrix4fv(translationLocation, 1, GL_TRUE, glm::value_ptr(translation));
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
+
+		triangle.draw();
 
 
 		glfwSwapBuffers(window);
