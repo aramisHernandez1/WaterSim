@@ -73,34 +73,18 @@ int main(void)
 	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
 #pragma endregion
 
-	float vertices[] = {
-	-0.5f, -0.5f, 0.0f,
-	0.5f, -0.5f, 0.0f,
-	0.0f, 0.5f, 0.0f
-	};
 
+	//Drawing our shape
+	std::vector<glm::vec3> vertice = { glm::vec3(0.5f, 0.5f, 0.0f), glm::vec3(0.5f, -0.5f, 0.0f), glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(-0.5f, 0.5f, 0.0f)};
+	std::vector<unsigned int> indices = { 0, 1, 3, 1, 2, 3 };
+	Shape triangle = Shape(vertice, indices);
 
-	unsigned int VAO, VBO;
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
-
-	std::vector<glm::vec3> vertice = { glm::vec3(0.25f, 0.25f, 0.0f), glm::vec3(0.5f, 0.25f, 0.0f), glm::vec3(0.30f, 0.0f, 0.0f) };
-	Shape triangle = Shape(vertice);
 
 	//shader loading example
 	Shader s;
 	s.loadShaderProgramFromFile(RESOURCES_PATH "vertex.vert", RESOURCES_PATH "fragment.frag");
 
+	//Uniform location for translation.
 	GLint translationLocation;
 
 
@@ -128,9 +112,6 @@ int main(void)
 		translation = glm::scale(translation, scalar);
 
 		glUniformMatrix4fv(translationLocation, 1, GL_TRUE, glm::value_ptr(translation));
-		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-
 		triangle.draw();
 
 

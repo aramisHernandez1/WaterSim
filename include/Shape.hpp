@@ -14,7 +14,7 @@ class Shape {
 
 public:
 	//Constructor
-	Shape(std::vector<glm::vec3> vertices);
+	Shape(std::vector<glm::vec3> vertices, std::vector<unsigned int> indices);
 
 	//Destructor free up memory
 	~Shape() {
@@ -23,10 +23,15 @@ public:
 	}
 
 	void draw();
-
+	
+	//Mesh Information
 	std::vector<glm::vec3> vertices;
+	std::vector<unsigned int> indices;
+
+	//Buffers/Array objects.
 	GLuint VBO = 0;
 	GLuint VAO = 0;
+	GLuint EBO = 0;
 
 
 private:
