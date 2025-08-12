@@ -74,18 +74,30 @@ int main(void)
 #pragma endregion
 
 
-	//Drawing our shape
-	std::vector<glm::vec3> vertice = { glm::vec3(0.5f, 0.5f, 0.0f), glm::vec3(0.5f, -0.5f, 0.0f), glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(-0.5f, 0.5f, 0.0f)};
-	std::vector<unsigned int> indices = { 0, 1, 3, 1, 2, 3 };
+	//Drawing our shapes
+
+	//First triangle
+	std::vector<Vertex> vertice = { {glm::vec3(-0.5f, 0.5f, 0.0f), 1.0f}, {glm::vec3(0.0f, -0.5f, 0.0f), 1.0f}, {glm::vec3(-0.5f, -0.5f, 0.0f), 1.0f } };
+	std::vector<unsigned int> indices = { 0, 1, 2};
 	Shape triangle = Shape(vertice, indices);
 
+	//Second triangle
+	std::vector<Vertex> vertice2 = { {glm::vec3(-0.49f, 0.5f, 0.0f), 2.0f}, {glm::vec3(0.01f, -0.5f, 0.0f), 2.0f}, {glm::vec3(0.01f, 0.5f, 0.0f), 2.0f} };
+	std::vector<unsigned int> indices2 = { 0, 1, 2 };
+	Shape triangle2 = Shape(vertice2, indices2);
+
+	//Third triangle
+	std::vector<Vertex> vertice3 = { {glm::vec3(0.5f, 0.5f, 0.0f), 3.0f}, {glm::vec3(0.02f, -0.5f, 0.0f), 3.0f}, {glm::vec3(0.5f, -0.5f, 0.0f), 3.0f} };
+	std::vector<unsigned int> indices3 = { 0, 1, 2 };
+	Shape triangle3 = Shape(vertice3, indices3);
 
 	//shader loading example
-	Shader s;
-	s.loadShaderProgramFromFile(RESOURCES_PATH "vertex.vert", RESOURCES_PATH "fragment.frag");
+	Shader shader;
+	shader.loadShaderProgramFromFile(RESOURCES_PATH "vertex.vert", RESOURCES_PATH "fragment.frag");
 
 	//Uniform location for translation.
 	GLint translationLocation;
+	GLint timeLocation;
 
 
 
@@ -97,22 +109,29 @@ int main(void)
 		glViewport(0, 0, width, height);
 		glClear(GL_COLOR_BUFFER_BIT);
 
+		//Bind out shader
+		shader.bind();
 
-		s.bind();
-
+		//Set time for the fade effect.
 		float time = glfwGetTime();
-		float scale = sin(time) + 0.1f;
-		translationLocation = s.getUniform("ourTranslation");
+		timeLocation = shader.getUniform("time");
+		//translationLocation = s.getUniform("ourTranslation");
+		glUniform1f(timeLocation, time);
 
-		//Creates identity matrix
-		glm::mat4 translation = glm::mat4(1.0f);
+		/*
+		//glm::mat4 translation = glm::mat4(1.0f);
 		//Scalar vector for multiplication
-		glm::vec3 scalar = glm::vec3(scale * 2.0f, scale, 0.0f);
+		//glm::vec3 scalar = glm::vec3(scale * 2.0f, scale, 0.0f);
 
-		translation = glm::scale(translation, scalar);
+		//translation = glm::scale(translation, scalar);
 
-		glUniformMatrix4fv(translationLocation, 1, GL_TRUE, glm::value_ptr(translation));
+		//glUniformMatrix4fv(translationLocation, 1, GL_TRUE, glm::value_ptr(translation));
+		*/
+
+		//Draw all three triangles
 		triangle.draw();
+		triangle2.draw();
+		triangle3.draw();
 
 
 		glfwSwapBuffers(window);

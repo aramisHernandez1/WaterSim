@@ -1,11 +1,15 @@
 #version 330 core
 
 layout (location = 0) in vec3 p;
+layout (location = 1) in float inFadeSpeed;
 
-uniform mat4 ourTranslation;
+out float outFadeSpeed;
+
+//uniform mat4 ourTranslation;
 
 void main()
 {
-	gl_Position = ourTranslation * vec4(p, 1);
+	gl_Position = vec4(p, 1);
+	outFadeSpeed = inFadeSpeed;
 
 }

@@ -1,20 +1,32 @@
 #pragma once
 
-
+//Standard libs
 #include <vector>
 
+//OpenGL libs
 #include <glad/glad.h>
 
+//Glm libs for math
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+
+
 //Shape class used to draw basic shapes when given and passed the vertices of the shape.
+//Added the extra feature of having a fade speed to create fading triangles.
+
+
+//Vertex struct with a extra attribute of the fadespeed of the vertex.
+struct Vertex {
+	glm::vec3 position;
+	float fadeSpeed;
+};
 
 class Shape {
 
 public:
 	//Constructor
-	Shape(std::vector<glm::vec3> vertices, std::vector<unsigned int> indices);
+	Shape(std::vector<Vertex> vertices, std::vector<unsigned int> indices);
 
 	//Destructor free up memory
 	~Shape() {
@@ -25,7 +37,7 @@ public:
 	void draw();
 	
 	//Mesh Information
-	std::vector<glm::vec3> vertices;
+	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
 
 	//Buffers/Array objects.

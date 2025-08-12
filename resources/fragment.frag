@@ -2,10 +2,13 @@
 
 layout (location = 0) out vec4 color;
 
+in float outFadeSpeed;
+
+uniform float time;
 
 void main()
 {
-	
-	color = vec4(1,1,1,1);
+	float alpha = abs(sin( (time * outFadeSpeed)/5 )	);
+	color = vec4(1-alpha, 1-alpha, 1-alpha, 1);
 
 }
