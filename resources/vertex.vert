@@ -4,6 +4,7 @@ layout (location = 0) in vec3 p;
 layout (location = 1) in float inFadeSpeed;
 
 out float outFadeSpeed;
+out vec3 vertColor;
 
 //uniform mat4 ourTranslation;
 uniform mat4 MVP;
@@ -12,5 +13,6 @@ void main()
 {
 	gl_Position = MVP * vec4(p, 1);
 	outFadeSpeed = inFadeSpeed;
+	vertColor = p;
 
 }

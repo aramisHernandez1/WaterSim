@@ -106,7 +106,7 @@ int main(void)
 	glm::mat4 view = glm::mat4(1.0f);
 	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
 
-	glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f); //Note Idk what the numbers really mean currently, figure this out next time.
+	glm::mat4 projection = glm::perspective(glm::radians(90.0f), 640.0f / 480.0f, 0.1f, 100.0f); //Note Idk what the numbers really mean currently, figure this out next time.
 
 	//Will pass the multiplication off all three on a uniform
 	//Multiple on CPU so we dont have to use the bus which is slow I believe.
