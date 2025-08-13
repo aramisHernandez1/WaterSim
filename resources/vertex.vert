@@ -6,10 +6,11 @@ layout (location = 1) in float inFadeSpeed;
 out float outFadeSpeed;
 
 //uniform mat4 ourTranslation;
+uniform mat4 MVP;
 
 void main()
 {
-	gl_Position = vec4(p, 1);
+	gl_Position = MVP * vec4(p, 1);
 	outFadeSpeed = inFadeSpeed;
 
 }

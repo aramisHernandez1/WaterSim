@@ -94,12 +94,25 @@ int main(void)
 	//shader loading example
 	Shader shader;
 	shader.loadShaderProgramFromFile(RESOURCES_PATH "vertex.vert", RESOURCES_PATH "fragment.frag");
-
 	//Uniform location for translation.
 	GLint translationLocation;
 	GLint timeLocation;
 
+	//Set up our model view and projection matrix
+	//Note for now this is just straight tooken from learnOpenGL
+	glm::mat4 model = glm::mat4(1.0f);
+	model = glm::rotate(model, glm::radians(-65.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
+	glm::mat4 view = glm::mat4(1.0f);
+	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+
+	glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f); //Note Idk what the numbers really mean currently, figure this out next time.
+
+	//Will pass the multiplication off all three on a uniform
+	//Multiple on CPU so we dont have to use the bus which is slow I believe.
+	glm::mat4 MVP = projection * view * model;
+
+	GLint MVPlocation;
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -117,6 +130,11 @@ int main(void)
 		timeLocation = shader.getUniform("time");
 		//translationLocation = s.getUniform("ourTranslation");
 		glUniform1f(timeLocation, time);
+
+		MVPlocation = shader.getUniform("MVP");
+		
+		glUniformMatrix4fv(MVPlocation, 1, GL_TRUE, glm::value_ptr(MVP));
+
 
 		/*
 		//glm::mat4 translation = glm::mat4(1.0f);
