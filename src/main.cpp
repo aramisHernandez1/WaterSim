@@ -126,23 +126,13 @@ int main(void)
 #pragma endregion
 
 
-	//Drawing our shapes
 
-	//First triangle
-	/*
-	std::vector<Vertex> vertice = {
-	{glm::vec3(-0.5f, 0.5f, 0.0f)},
-	{glm::vec3(0.0f, -0.5f, 0.0f)},
-	{glm::vec3(-0.5f, -0.5f, 0.0f)},
-	{glm::vec3(0.0f, 0.5f, 0.0f)} };
-	std::vector<unsigned int> indices = { 0, 1, 2, 0, 1, 3};
-	*/
-
+	//Setting up our plane with its vertices
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
-
 	generatePlaneGrid(1000, 1000, 10.0f, vertices, indices);
 
+	
 	Shape plane = Shape(vertices, indices);
 
 
@@ -192,7 +182,7 @@ int main(void)
 
 		glUniformMatrix4fv(MVPlocation, 1, GL_FALSE, glm::value_ptr(MVP));
 
-		//Draw all three triangles
+		//Draw all our plane/waves
 		plane.draw();
 
 
