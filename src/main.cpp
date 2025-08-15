@@ -32,6 +32,60 @@ static void key_callback(GLFWwindow *window, int key, int scancode, int action, 
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
 }
 
+
+static void generatePlaneGrid(int cols, int rows, float size, std::vector<Vertex> &outVerts, std::vector<unsigned int> &outIndices) {
+	outVerts.clear();
+	outIndices.clear();
+
+
+	const int vCountX = cols + 1;
+	const int vCountZ = rows + 1;
+
+	const float half = size * 0.5f;
+
+	const float disX = size / cols;
+	const float disZ = size / rows;
+
+	outVerts.reserve(vCountX * vCountZ);
+
+	for (int z = 0; z < vCountZ; ++z) {
+		for (int x = 0; x < vCountX; ++x) {
+			
+			float posX = -half + (x * disX);
+			float posZ = -half + (z * disZ);
+
+
+			Vertex vertice;
+			vertice.position = glm::vec3(posX, 0.0f, posZ);
+			outVerts.push_back(vertice);
+		}
+	}
+
+	//add a constant 6 since we need 2 triangles
+	//each traingle has 3 indices so 3 * 2 = 6.
+	outIndices.reserve(cols * rows * 6);
+	for (int z = 0; z < rows; ++z) {
+		for (int x = 0; x < cols; ++x) {
+			int i0 = z * vCountX + x;
+			int i1 = z * vCountX + (x + 1);
+			int i2 = (z + 1) * vCountX + x;
+			int i3 = (z + 1) * vCountX + (x + 1);
+
+			//Triangle 1 contains indices [0, 2, 1]
+			outIndices.push_back(i0);
+			outIndices.push_back(i2);
+			outIndices.push_back(i1);
+
+			//Trianlge 2 contains indices [1, 2, 3]
+			outIndices.push_back(i1);
+			outIndices.push_back(i2);
+			outIndices.push_back(i3);
+		}
+	}
+
+}
+
+
 int main(void)
 {
 
@@ -48,8 +102,6 @@ int main(void)
 	//glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	//glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
 	//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //you might want to do this when testing the game for shipping
-
-
 
 
 	GLFWwindow *window = window = glfwCreateWindow(640, 480, "Simple example", NULL, NULL);
@@ -77,34 +129,30 @@ int main(void)
 	//Drawing our shapes
 
 	//First triangle
-	std::vector<Vertex> vertice = { {glm::vec3(-0.5f, 0.5f, 0.0f), 1.0f}, {glm::vec3(0.0f, -0.5f, 0.0f), 1.0f}, {glm::vec3(-0.5f, -0.5f, 0.0f), 1.0f }, {glm::vec3(0.0f, 0.5f, 0.0f), 1.0f}};
-	std::vector<unsigned int> indices = { 0, 1, 2, 0, 1, 3};
-	Shape triangle = Shape(vertice, indices);
-
 	/*
-	//Second triangle
-	std::vector<Vertex> vertice2 = { {glm::vec3(-0.49f, 0.5f, 0.0f), 2.0f}, {glm::vec3(0.01f, -0.5f, 0.0f), 2.0f}, {glm::vec3(0.01f, 0.5f, 0.0f), 2.0f} };
-	std::vector<unsigned int> indices2 = { 0, 1, 2 };
-	Shape triangle2 = Shape(vertice2, indices2);
-
-	//Third triangle
-	std::vector<Vertex> vertice3 = { {glm::vec3(0.5f, 0.5f, 0.0f), 3.0f}, {glm::vec3(0.02f, -0.5f, 0.0f), 3.0f}, {glm::vec3(0.5f, -0.5f, 0.0f), 3.0f} };
-	std::vector<unsigned int> indices3 = { 0, 1, 2 };
-	Shape triangle3 = Shape(vertice3, indices3);
+	std::vector<Vertex> vertice = {
+	{glm::vec3(-0.5f, 0.5f, 0.0f)},
+	{glm::vec3(0.0f, -0.5f, 0.0f)},
+	{glm::vec3(-0.5f, -0.5f, 0.0f)},
+	{glm::vec3(0.0f, 0.5f, 0.0f)} };
+	std::vector<unsigned int> indices = { 0, 1, 2, 0, 1, 3};
 	*/
+
+	std::vector<Vertex> vertices;
+	std::vector<unsigned int> indices;
+
+	generatePlaneGrid(1000, 1000, 10.0f, vertices, indices);
+
+	Shape plane = Shape(vertices, indices);
+
 
 	//shader loading example
 	Shader shader;
 	shader.loadShaderProgramFromFile(RESOURCES_PATH "vertex.vert", RESOURCES_PATH "fragment.frag");
-	//Uniform location for translation.
-	GLint translationLocation;
+
+
 	GLint timeLocation;
-
-
 	GLint MVPlocation;
-	GLint modelLoc;
-	GLint viewLoc; 
-	GLint projLoc;
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -120,7 +168,6 @@ int main(void)
 		//Set time for the fade effect.
 		float time = glfwGetTime();
 		timeLocation = shader.getUniform("time");
-		//translationLocation = s.getUniform("ourTranslation");
 		glUniform1f(timeLocation, time);
 
 
@@ -128,10 +175,11 @@ int main(void)
 		//Set up our model view and projection matrix
 		//Note for now this is just straight tooken from learnOpenGL
 		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, glm::radians(25.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
 		glm::mat4 view = glm::mat4(1.0f);
-		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+		view = glm::translate(view, glm::vec3(0.0f, -1.0f, -20.0f));
 
 		glm::mat4 projection = glm::mat4(1.0f);
 		projection = glm::perspective(glm::radians(45.0f), 640.0f / 480.0f, 0.1f, 100.0f); //Note Idk what the numbers really mean currently, figure this out next time.
@@ -141,34 +189,11 @@ int main(void)
 		glm::mat4 MVP = projection * view * model;
 
 		MVPlocation = shader.getUniform("MVP");
-		/*
-		modelLoc = shader.getUniform("model");
-		viewLoc = shader.getUniform("view");
-		projLoc = shader.getUniform("projection");
-
-
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-		*/
 
 		glUniformMatrix4fv(MVPlocation, 1, GL_FALSE, glm::value_ptr(MVP));
 
-
-		/*
-		//glm::mat4 translation = glm::mat4(1.0f);
-		//Scalar vector for multiplication
-		//glm::vec3 scalar = glm::vec3(scale * 2.0f, scale, 0.0f);
-
-		//translation = glm::scale(translation, scalar);
-
-		//glUniformMatrix4fv(translationLocation, 1, GL_TRUE, glm::value_ptr(translation));
-		*/
-
 		//Draw all three triangles
-		triangle.draw();
-		//triangle2.draw();
-		//triangle3.draw();
+		plane.draw();
 
 
 		glfwSwapBuffers(window);
