@@ -16,7 +16,7 @@ void main()
 	float wave3 = sin((p.x + p.z) * 1.0 + time * 1.0);
 
 	//Combine sum of sines
-	float displacement = (wave1 + wave2) * 0.2;
+	float displacement = (wave1 + wave2 + wave3) * 0.2;
 
 	//Offset vertex position in the y-axis.
 	newPos = p + vec3(0.0, displacement, 0.0);
