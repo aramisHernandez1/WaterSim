@@ -77,10 +77,11 @@ int main(void)
 	//Drawing our shapes
 
 	//First triangle
-	std::vector<Vertex> vertice = { {glm::vec3(-0.5f, 0.5f, 0.0f), 1.0f}, {glm::vec3(0.0f, -0.5f, 0.0f), 1.0f}, {glm::vec3(-0.5f, -0.5f, 0.0f), 1.0f } };
-	std::vector<unsigned int> indices = { 0, 1, 2};
+	std::vector<Vertex> vertice = { {glm::vec3(-0.5f, 0.5f, 0.0f), 1.0f}, {glm::vec3(0.0f, -0.5f, 0.0f), 1.0f}, {glm::vec3(-0.5f, -0.5f, 0.0f), 1.0f }, {glm::vec3(0.0f, 0.5f, 0.0f), 1.0f}};
+	std::vector<unsigned int> indices = { 0, 1, 2, 0, 1, 3};
 	Shape triangle = Shape(vertice, indices);
 
+	/*
 	//Second triangle
 	std::vector<Vertex> vertice2 = { {glm::vec3(-0.49f, 0.5f, 0.0f), 2.0f}, {glm::vec3(0.01f, -0.5f, 0.0f), 2.0f}, {glm::vec3(0.01f, 0.5f, 0.0f), 2.0f} };
 	std::vector<unsigned int> indices2 = { 0, 1, 2 };
@@ -90,6 +91,7 @@ int main(void)
 	std::vector<Vertex> vertice3 = { {glm::vec3(0.5f, 0.5f, 0.0f), 3.0f}, {glm::vec3(0.02f, -0.5f, 0.0f), 3.0f}, {glm::vec3(0.5f, -0.5f, 0.0f), 3.0f} };
 	std::vector<unsigned int> indices3 = { 0, 1, 2 };
 	Shape triangle3 = Shape(vertice3, indices3);
+	*/
 
 	//shader loading example
 	Shader shader;
@@ -98,21 +100,11 @@ int main(void)
 	GLint translationLocation;
 	GLint timeLocation;
 
-	//Set up our model view and projection matrix
-	//Note for now this is just straight tooken from learnOpenGL
-	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::rotate(model, glm::radians(-65.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-
-	glm::mat4 view = glm::mat4(1.0f);
-	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-
-	glm::mat4 projection = glm::perspective(glm::radians(90.0f), 640.0f / 480.0f, 0.1f, 100.0f); //Note Idk what the numbers really mean currently, figure this out next time.
-
-	//Will pass the multiplication off all three on a uniform
-	//Multiple on CPU so we dont have to use the bus which is slow I believe.
-	glm::mat4 MVP = projection * view * model;
 
 	GLint MVPlocation;
+	GLint modelLoc;
+	GLint viewLoc; 
+	GLint projLoc;
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -131,9 +123,36 @@ int main(void)
 		//translationLocation = s.getUniform("ourTranslation");
 		glUniform1f(timeLocation, time);
 
+
+
+		//Set up our model view and projection matrix
+		//Note for now this is just straight tooken from learnOpenGL
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+
+		glm::mat4 view = glm::mat4(1.0f);
+		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+
+		glm::mat4 projection = glm::mat4(1.0f);
+		projection = glm::perspective(glm::radians(45.0f), 640.0f / 480.0f, 0.1f, 100.0f); //Note Idk what the numbers really mean currently, figure this out next time.
+
+		//Will pass the multiplication off all three on a uniform
+		//Multiple on CPU so we dont have to use the bus which is slow I believe.
+		glm::mat4 MVP = projection * view * model;
+
 		MVPlocation = shader.getUniform("MVP");
-		
-		glUniformMatrix4fv(MVPlocation, 1, GL_TRUE, glm::value_ptr(MVP));
+		/*
+		modelLoc = shader.getUniform("model");
+		viewLoc = shader.getUniform("view");
+		projLoc = shader.getUniform("projection");
+
+
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+		*/
+
+		glUniformMatrix4fv(MVPlocation, 1, GL_FALSE, glm::value_ptr(MVP));
 
 
 		/*
@@ -148,8 +167,8 @@ int main(void)
 
 		//Draw all three triangles
 		triangle.draw();
-		triangle2.draw();
-		triangle3.draw();
+		//triangle2.draw();
+		//triangle3.draw();
 
 
 		glfwSwapBuffers(window);

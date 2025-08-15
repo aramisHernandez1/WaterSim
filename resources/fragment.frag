@@ -12,6 +12,7 @@ void main()
 	float alpha = abs(sin( (time * outFadeSpeed)/5 )	);
 
 
-	color = vec4(vertColor.x, vertColor.y, vertColor.z, alpha);
+	color = vec4(alpha, 1, 1-alpha, 1);
+
 
 }

@@ -9,9 +9,15 @@ out vec3 vertColor;
 //uniform mat4 ourTranslation;
 uniform mat4 MVP;
 
+//uniform mat4 model;
+//uniform mat4 view;
+//uniform mat4 projection;
+
+
+
 void main()
 {
-	gl_Position = MVP * vec4(p, 1);
+	gl_Position = MVP * vec4(p, 1.0);
 	outFadeSpeed = inFadeSpeed;
 	vertColor = p;
 
