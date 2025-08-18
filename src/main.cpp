@@ -32,7 +32,7 @@ static void key_callback(GLFWwindow *window, int key, int scancode, int action, 
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
 }
 
-
+//Helper method that generates a plane with a whole bunch of vertices, so we can displace the vertices to give us waves and other cool effects.
 static void generatePlaneGrid(int cols, int rows, float size, std::vector<Vertex> &outVerts, std::vector<unsigned int> &outIndices) {
 	outVerts.clear();
 	outIndices.clear();
@@ -57,6 +57,7 @@ static void generatePlaneGrid(int cols, int rows, float size, std::vector<Vertex
 
 			Vertex vertice;
 			vertice.position = glm::vec3(posX, 0.0f, posZ);
+			vertice.normal = glm::vec3(0.0f, 1.0f, 0.0f);
 			outVerts.push_back(vertice);
 		}
 	}
@@ -140,9 +141,16 @@ int main(void)
 	Shader shader;
 	shader.loadShaderProgramFromFile(RESOURCES_PATH "vertex.vert", RESOURCES_PATH "fragment.frag");
 
-
+	//time and perspective matrices locations used in our vertex shader.
 	GLint timeLocation;
 	GLint MVPlocation;
+
+
+	//Lighting color, pos and object color used in fragment shader for lighting.
+	GLint lightColorLocation;
+	GLint lightPosLocation; //Note location meaning the address in memory on GPU
+	GLint objectColorLocation;
+
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -181,6 +189,20 @@ int main(void)
 		MVPlocation = shader.getUniform("MVP");
 
 		glUniformMatrix4fv(MVPlocation, 1, GL_FALSE, glm::value_ptr(MVP));
+
+		lightColorLocation = shader.getUniform("lightColor");
+		glm::vec3 lightColor = glm::vec3(1.0f, 1.0f, 1.0f);
+
+		lightPosLocation = shader.getUniform("lightPos");
+		glm::vec3 lightPos = glm::vec3(20.0f, 10.0f, 0.0f);
+
+		objectColorLocation = shader.getUniform("objectColor");
+		glm::vec3 objectColor = glm::vec3(0.2f, 0.1f, 1.0f);
+
+		glUniform3fv(lightColorLocation, 1, glm::value_ptr(lightColor));
+		glUniform3fv(lightPosLocation, 1, glm::value_ptr(lightPos));
+		glUniform3fv(objectColorLocation, 1, glm::value_ptr(objectColor));
+
 
 		//Draw all our plane/waves
 		plane.draw();

@@ -19,6 +19,7 @@
 //Vertex struct with a extra attribute of the fadespeed of the vertex.
 struct Vertex {
 	glm::vec3 position;
+	glm::vec3 normal;
 };
 
 class Shape {

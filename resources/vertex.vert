@@ -10,6 +10,7 @@ uniform float time;
 vec3 newPos;
 
 out vec3 normal;
+out vec3 fragPos;
 
 void main()
 {
@@ -26,6 +27,12 @@ void main()
 
 	gl_Position = MVP * vec4(newPos, 1.0);
 
+	//Note this normal is incorrect
+	//THe normal is currently for the lighting of a flate surface.
+	//Calculations need to be done for it to be the lighting of the waves
 	normal = aNormal;
+
+	//Note change the position to new position when fixed the normals.
+	fragPos = vec3(vec4(aPos, 1.0));
 
 }
