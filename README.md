@@ -2,12 +2,18 @@ Water Simulation Graphics Project Using OpenGL.
 
 My Main Goals with this project:
 To learn foundational and advanced computer graphics skills while learning and using OpenGL. 
-The main point of this project being the learning and not so much the result of this project.
+The main point of this project is the learning and not so much the result of this project.
 
-
+Current Acomplishments:
+Learned the basic openGL structure, how to set up a context, buffers, shaders and how to draw basic shapes to the screen.
+Learned basic GLSL such as creating a vertex shader for the ocean
+Learned how waver works in computer graphics, the sum of sines, the derivative to get the tangent and bi for vector normals.
 
 TO DO:
-Add a simple lightning effect, such as Phong's lighting, to make the waves have more detail.
+Get IMGui linking to work for the backend side
+Get some GUI for the number of waves and other parameters
+Add specular lighting to the waves
+Update the waves to be more ocean-like gyestr waves, or a different wave function
 
 Resources:
 https://catlikecoding.com/unity/tutorials/flow/waves/
