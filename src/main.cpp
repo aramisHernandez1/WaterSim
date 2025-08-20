@@ -6,6 +6,7 @@
 //Standard Lib
 #include <iostream>
 #include<vector>
+#include <string>
 
 //Glm Libs
 #include <glm/glm.hpp>
@@ -24,6 +25,14 @@ extern "C"
 	__declspec(dllexport) unsigned long NvOptimusEnablement = USE_GPU_ENGINE;
 	__declspec(dllexport) int AmdPowerXpressRequestHighPerformance = USE_GPU_ENGINE;
 }
+
+
+struct Wave {
+	float amplitude;
+	float frequency;
+	float speed;
+	glm::vec2 direction;
+};
 
 
 static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
@@ -87,6 +96,8 @@ static void generatePlaneGrid(int cols, int rows, float size, std::vector<Vertex
 }
 
 
+
+
 int main(void)
 {
 
@@ -113,10 +124,11 @@ int main(void)
 	}
 
 	glfwSetKeyCallback(window, key_callback);
-
 	glfwMakeContextCurrent(window);
+
 	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 	glfwSwapInterval(1);
+
 
 
 #pragma region report opengl errors to std
@@ -150,6 +162,21 @@ int main(void)
 	GLint lightColorLocation;
 	GLint lightPosLocation; //Note location meaning the address in memory on GPU
 	GLint objectColorLocation;
+
+
+	GLint waveCountLoaction;
+	std::vector<Wave> waves = {
+	{0.3f,  2.0f, 1.5f, glm::vec2(1.0f, 0.0f)},   // X-axis
+	{0.2f,  3.5f, 0.8f, glm::vec2(0.0f, 1.0f)},   // Z-axis
+	{0.15f, 4.0f, 1.2f, glm::vec2(0.7f, 0.7f)},   // diagonal (45°)
+	{0.1f,  1.5f, 2.5f, glm::vec2(-1.0f, 0.2f)},  // mostly negative X
+	{0.25f, 5.0f, 1.0f, glm::vec2(0.3f, -0.9f)},  // tilted diagonal
+	{0.18f, 6.5f, 0.6f, glm::vec2(-0.7f, -0.7f)}, // opposite diagonal
+	{0.22f, 2.5f, 1.8f, glm::vec2(0.9f, 0.1f)},   // shallow angle
+	{0.12f, 8.0f, 0.4f, glm::vec2(0.5f, -0.5f)},  // small amplitude ripple
+	{0.28f, 3.0f, 2.2f, glm::vec2(-0.3f, 0.95f)}, // steep tilt
+	{0.2f,  7.0f, 1.3f, glm::vec2(0.2f, 0.8f)}    // almost Z
+	};
 
 
 	while (!glfwWindowShouldClose(window))
@@ -194,14 +221,27 @@ int main(void)
 		glm::vec3 lightColor = glm::vec3(1.0f, 1.0f, 1.0f);
 
 		lightPosLocation = shader.getUniform("lightPos");
-		glm::vec3 lightPos = glm::vec3(20.0f, 10.0f, 0.0f);
+		glm::vec3 lightPos = glm::vec3(10.0f, 5.0f, 0.0f);
 
 		objectColorLocation = shader.getUniform("objectColor");
-		glm::vec3 objectColor = glm::vec3(0.2f, 0.1f, 1.0f);
+		glm::vec3 objectColor = glm::vec3(101/255, 159/255, 1.0f);
 
 		glUniform3fv(lightColorLocation, 1, glm::value_ptr(lightColor));
 		glUniform3fv(lightPosLocation, 1, glm::value_ptr(lightPos));
 		glUniform3fv(objectColorLocation, 1, glm::value_ptr(objectColor));
+
+		waveCountLoaction = shader.getUniform("waveCount");
+
+		glUniform1i(waveCountLoaction, (int)waves.size());
+
+		for (int i = 0; i < waves.size(); i++) {
+			std::string idx = "waves[" + std::to_string(i) + "]";
+			glUniform1f(shader.getUniform((idx + ".amplitude").c_str()), waves[i].amplitude);
+			glUniform1f(shader.getUniform((idx + ".frequency").c_str()), waves[i].frequency);
+			glUniform1f(shader.getUniform((idx + ".speed").c_str()), waves[i].speed);
+			glUniform2fv(shader.getUniform((idx + ".direction").c_str()), 1, glm::value_ptr(waves[i].direction));
+		}
+
 
 
 		//Draw all our plane/waves
