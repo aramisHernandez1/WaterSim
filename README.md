@@ -10,10 +10,12 @@ Learned basic GLSL such as creating a vertex shader for the ocean
 Learned how waver works in computer graphics, the sum of sines, the derivative to get the tangent and bi for vector normals.
 
 TO DO:
+Add specular lighting to the waves
+	Need to add camera to even do this
+Update the waves to be more ocean-like gyestr waves, or a different wave function
 Get IMGui linking to work for the backend side
 Get some GUI for the number of waves and other parameters
-Add specular lighting to the waves
-Update the waves to be more ocean-like gyestr waves, or a different wave function
+
 
 Resources:
 https://catlikecoding.com/unity/tutorials/flow/waves/
