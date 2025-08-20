@@ -303,3 +303,30 @@ GLint getUniform(GLuint shaderId, const char *name)
 	}
 	return uniform;
 }
+
+
+void Shader::setUniformInt(const char *name, const int value) {
+	GLint uniformLocation = Shader::getUniform(name);
+	glUniform1i(uniformLocation, value);
+}
+
+void Shader::setUniformFloat(const char* name, const float value) {
+	GLint uniformLocation = Shader::getUniform(name);
+	glUniform1f(uniformLocation, value);
+}
+
+void Shader::setUniformVec2(const char* name, glm::vec2 value) {
+	GLint uniformLocation = Shader::getUniform(name);
+	glUniform2fv(uniformLocation, 1, glm::value_ptr(value));
+}
+
+void Shader::setUniformVec3(const char* name, glm::vec3 value) {
+	GLint uniformLocation = Shader::getUniform(name);
+	glUniform3fv(uniformLocation, 1, glm::value_ptr(value));
+}
+
+//Not change "readMode" name to collum mode or row mode have to figure out which is which.
+void Shader::setUniformMatrix4(const char* name, glm::mat4 value, GLboolean readMode) {
+	GLint uniformLocation = Shader::getUniform(name);
+	glUniformMatrix4fv(uniformLocation, 1, readMode, glm::value_ptr(value));
+}

@@ -153,18 +153,8 @@ int main(void)
 	Shader shader;
 	shader.loadShaderProgramFromFile(RESOURCES_PATH "vertex.vert", RESOURCES_PATH "fragment.frag");
 
-	//time and perspective matrices locations used in our vertex shader.
-	GLint timeLocation;
-	GLint MVPlocation;
 
 
-	//Lighting color, pos and object color used in fragment shader for lighting.
-	GLint lightColorLocation;
-	GLint lightPosLocation; //Note location meaning the address in memory on GPU
-	GLint objectColorLocation;
-
-
-	GLint waveCountLoaction;
 	std::vector<Wave> waves = {
 	{0.3f,  2.0f, 1.5f, glm::vec2(1.0f, 0.0f)},   // X-axis
 	{0.2f,  3.5f, 0.8f, glm::vec2(0.0f, 1.0f)},   // Z-axis
@@ -192,8 +182,7 @@ int main(void)
 
 		//Set time for the fade effect.
 		float time = glfwGetTime();
-		timeLocation = shader.getUniform("time");
-		glUniform1f(timeLocation, time);
+		shader.setUniformFloat("time", time);
 
 
 
@@ -212,34 +201,27 @@ int main(void)
 		//Will pass the multiplication off all three on a uniform
 		//Multiple on CPU so we dont have to use the bus which is slow I believe.
 		glm::mat4 MVP = projection * view * model;
+		shader.setUniformMatrix4("MVP", MVP, GL_FALSE);
 
-		MVPlocation = shader.getUniform("MVP");
-
-		glUniformMatrix4fv(MVPlocation, 1, GL_FALSE, glm::value_ptr(MVP));
-
-		lightColorLocation = shader.getUniform("lightColor");
 		glm::vec3 lightColor = glm::vec3(1.0f, 1.0f, 1.0f);
+		shader.setUniformVec3("lightColor", lightColor);
 
-		lightPosLocation = shader.getUniform("lightPos");
 		glm::vec3 lightPos = glm::vec3(10.0f, 5.0f, 0.0f);
+		shader.setUniformVec3("lightPos", lightPos);
 
-		objectColorLocation = shader.getUniform("objectColor");
 		glm::vec3 objectColor = glm::vec3(101/255, 159/255, 1.0f);
+		shader.setUniformVec3("objectColor", objectColor);
 
-		glUniform3fv(lightColorLocation, 1, glm::value_ptr(lightColor));
-		glUniform3fv(lightPosLocation, 1, glm::value_ptr(lightPos));
-		glUniform3fv(objectColorLocation, 1, glm::value_ptr(objectColor));
+		shader.setUniformInt("waveCount", (int)waves.size());
 
-		waveCountLoaction = shader.getUniform("waveCount");
-
-		glUniform1i(waveCountLoaction, (int)waves.size());
 
 		for (int i = 0; i < waves.size(); i++) {
 			std::string idx = "waves[" + std::to_string(i) + "]";
-			glUniform1f(shader.getUniform((idx + ".amplitude").c_str()), waves[i].amplitude);
-			glUniform1f(shader.getUniform((idx + ".frequency").c_str()), waves[i].frequency);
-			glUniform1f(shader.getUniform((idx + ".speed").c_str()), waves[i].speed);
-			glUniform2fv(shader.getUniform((idx + ".direction").c_str()), 1, glm::value_ptr(waves[i].direction));
+
+			shader.setUniformFloat((idx + ".amplitude").c_str(), waves[i].amplitude);
+			shader.setUniformFloat((idx + ".frequency").c_str(), waves[i].frequency);
+			shader.setUniformFloat((idx + ".speed").c_str(), waves[i].speed);
+			shader.setUniformVec2((idx + ".direction").c_str(), waves[i].direction);
 		}
 
 
