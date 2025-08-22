@@ -168,6 +168,22 @@ int main(void)
 	{0.2f,  7.0f, 1.3f, glm::vec2(0.2f, 0.8f)}    // almost Z
 	};
 
+	glm::vec3 cameraPos = glm::vec3(0.0f, 1.0f, 10.0f);
+	glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+	glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
+	//glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
+	//glm::vec3 cameraDirection = glm::normalize(cameraPos - cameraTarget); //Direction is pointing in reverse of what we are targeting
+
+	//Right axis
+	//glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
+	//glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));
+
+	//glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);
+
+	glm::mat4 view;
+	view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -184,6 +200,8 @@ int main(void)
 		float time = glfwGetTime();
 		shader.setUniformFloat("time", time);
 
+		shader.setUniformVec3("viewPos", cameraPos);
+
 
 
 		//Set up our model view and projection matrix
@@ -192,8 +210,8 @@ int main(void)
 		model = glm::rotate(model, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		model = glm::rotate(model, glm::radians(25.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
-		glm::mat4 view = glm::mat4(1.0f);
-		view = glm::translate(view, glm::vec3(0.0f, -1.0f, -20.0f));
+		//glm::mat4 view = glm::mat4(1.0f);
+		//view = glm::translate(view, glm::vec3(0.0f, -1.0f, -20.0f));
 
 		glm::mat4 projection = glm::mat4(1.0f);
 		projection = glm::perspective(glm::radians(45.0f), 640.0f / 480.0f, 0.1f, 100.0f); //Note Idk what the numbers really mean currently, figure this out next time.
@@ -209,7 +227,7 @@ int main(void)
 		glm::vec3 lightPos = glm::vec3(10.0f, 5.0f, 0.0f);
 		shader.setUniformVec3("lightPos", lightPos);
 
-		glm::vec3 objectColor = glm::vec3(101/255, 159/255, 1.0f);
+		glm::vec3 objectColor = glm::vec3(0.1f, 0.10f, 0.7f);
 		shader.setUniformVec3("objectColor", objectColor);
 
 		shader.setUniformInt("waveCount", (int)waves.size());
