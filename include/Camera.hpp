@@ -9,8 +9,13 @@
 class Camera {
 
 public:
-	glm::vec3 position;
+	Camera(glm::vec3 pos);
 
+	glm::vec3 position;
+	glm::vec3 front;
+	glm::vec3 up;
+
+	glm::mat4 view;
 
 
 };

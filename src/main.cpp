@@ -154,7 +154,7 @@ int main(void)
 	shader.loadShaderProgramFromFile(RESOURCES_PATH "vertex.vert", RESOURCES_PATH "fragment.frag");
 
 
-
+	/*
 	std::vector<Wave> waves = {
 	{0.3f,  2.0f, 1.5f, glm::vec2(1.0f, 0.0f)},   // X-axis
 	{0.2f,  3.5f, 0.8f, glm::vec2(0.0f, 1.0f)},   // Z-axis
@@ -167,6 +167,7 @@ int main(void)
 	{0.28f, 3.0f, 2.2f, glm::vec2(-0.3f, 0.95f)}, // steep tilt
 	{0.2f,  7.0f, 1.3f, glm::vec2(0.2f, 0.8f)}    // almost Z
 	};
+	*/
 
 	glm::vec3 cameraPos = glm::vec3(0.0f, 1.0f, 10.0f);
 	glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -227,12 +228,12 @@ int main(void)
 		glm::vec3 lightPos = glm::vec3(10.0f, 5.0f, 0.0f);
 		shader.setUniformVec3("lightPos", lightPos);
 
-		glm::vec3 objectColor = glm::vec3(0.1f, 0.10f, 0.7f);
+		glm::vec3 objectColor = glm::vec3(0.0f, 0.30f, 0.85f);
 		shader.setUniformVec3("objectColor", objectColor);
 
-		shader.setUniformInt("waveCount", (int)waves.size());
+		shader.setUniformInt("waveCount", 4);
 
-
+		/*
 		for (int i = 0; i < waves.size(); i++) {
 			std::string idx = "waves[" + std::to_string(i) + "]";
 
@@ -241,7 +242,7 @@ int main(void)
 			shader.setUniformFloat((idx + ".speed").c_str(), waves[i].speed);
 			shader.setUniformVec2((idx + ".direction").c_str(), waves[i].direction);
 		}
-
+		*/
 
 
 		//Draw all our plane/waves
