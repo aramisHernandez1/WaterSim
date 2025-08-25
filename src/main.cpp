@@ -18,6 +18,7 @@
 #include <Shape.hpp>
 #include <openglDebug.h>
 #include <demoShaderLoader.h>
+#include <Camera.hpp>
 
 #define USE_GPU_ENGINE 0
 extern "C"
@@ -39,6 +40,17 @@ static void key_callback(GLFWwindow *window, int key, int scancode, int action, 
 {
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
+}
+
+void processed_input(GLFWwindow* window, Camera *camera, float dt) {
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		camera->moveFoward(dt);
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		camera->moveBackward(dt);
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		camera->moveDown(dt);
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		camera->moveUp(dt);
 }
 
 //Helper method that generates a plane with a whole bunch of vertices, so we can displace the vertices to give us waves and other cool effects.
@@ -154,21 +166,7 @@ int main(void)
 	shader.loadShaderProgramFromFile(RESOURCES_PATH "vertex.vert", RESOURCES_PATH "fragment.frag");
 
 
-	/*
-	std::vector<Wave> waves = {
-	{0.3f,  2.0f, 1.5f, glm::vec2(1.0f, 0.0f)},   // X-axis
-	{0.2f,  3.5f, 0.8f, glm::vec2(0.0f, 1.0f)},   // Z-axis
-	{0.15f, 4.0f, 1.2f, glm::vec2(0.7f, 0.7f)},   // diagonal (45°)
-	{0.1f,  1.5f, 2.5f, glm::vec2(-1.0f, 0.2f)},  // mostly negative X
-	{0.25f, 5.0f, 1.0f, glm::vec2(0.3f, -0.9f)},  // tilted diagonal
-	{0.18f, 6.5f, 0.6f, glm::vec2(-0.7f, -0.7f)}, // opposite diagonal
-	{0.22f, 2.5f, 1.8f, glm::vec2(0.9f, 0.1f)},   // shallow angle
-	{0.12f, 8.0f, 0.4f, glm::vec2(0.5f, -0.5f)},  // small amplitude ripple
-	{0.28f, 3.0f, 2.2f, glm::vec2(-0.3f, 0.95f)}, // steep tilt
-	{0.2f,  7.0f, 1.3f, glm::vec2(0.2f, 0.8f)}    // almost Z
-	};
-	*/
-
+	Camera camera = Camera(glm::vec3(0.0f, 1.0f, 10.0f));
 	glm::vec3 cameraPos = glm::vec3(0.0f, 1.0f, 10.0f);
 	glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 	glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -184,7 +182,13 @@ int main(void)
 
 	glm::mat4 view;
 	view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+	camera.updateViewMatrix();
+	
+	int waveCount = 300;
 
+	float currentFrame = 0.0;
+	float deltaTime = 0.0;
+	float lastFrame = 0.0;
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -196,6 +200,11 @@ int main(void)
 
 		//Bind out shader
 		shader.bind();
+
+		//Delta time for physics (camera movement)
+		currentFrame = glfwGetTime();
+		deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
 
 		//Set time for the fade effect.
 		float time = glfwGetTime();
@@ -219,19 +228,20 @@ int main(void)
 
 		//Will pass the multiplication off all three on a uniform
 		//Multiple on CPU so we dont have to use the bus which is slow I believe.
-		glm::mat4 MVP = projection * view * model;
+		camera.updateViewMatrix();
+		glm::mat4 MVP = projection * camera.getViewMatrix() * model;
 		shader.setUniformMatrix4("MVP", MVP, GL_FALSE);
 
 		glm::vec3 lightColor = glm::vec3(1.0f, 1.0f, 1.0f);
 		shader.setUniformVec3("lightColor", lightColor);
 
-		glm::vec3 lightPos = glm::vec3(10.0f, 5.0f, 0.0f);
+		glm::vec3 lightPos = glm::vec3(1.5f, 5.0f, 1.0f);
 		shader.setUniformVec3("lightPos", lightPos);
 
 		glm::vec3 objectColor = glm::vec3(0.0f, 0.30f, 0.85f);
 		shader.setUniformVec3("objectColor", objectColor);
 
-		shader.setUniformInt("waveCount", 4);
+		shader.setUniformInt("waveCount", waveCount);
 
 		/*
 		for (int i = 0; i < waves.size(); i++) {
@@ -245,10 +255,11 @@ int main(void)
 		*/
 
 
+
 		//Draw all our plane/waves
 		plane.draw();
 
-
+		processed_input(window, &camera, deltaTime);
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}

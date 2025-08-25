@@ -16,7 +16,7 @@ uniform mat4 MVP;
 uniform float time;
 
 
-#define MAX_WAVES 300
+#define MAX_WAVES 10000
 
 uniform int waveCount;
 Wave waves[MAX_WAVES];
@@ -33,13 +33,14 @@ float fbm(){
 
 	float amp = 0.5;
 	float freq = 1.0;
+	float norm = 0.0;
 
 
 	float dfdx = 0.0;
 	float dfdz = 0.0;
 
 	for(int i = 0; i < waveCount; i++){
-		float angle = float(i) * 12.9898;
+		float angle = float(i);
 		vec2 dir = vec2(sin(angle), cos(angle)); //randomish directions
 		Wave currentWave = Wave(amp, freq, dir);
 		waves[i] = currentWave;
@@ -51,10 +52,12 @@ float fbm(){
 		float wave = exp(sin(phase) - 1.0) * waves[i].amplitude;
 
 		sum += wave;
+		norm += amp;
+
 
 		//Modify our next wave in fbm.
-		freq *= 2.0;
-		amp *= 0.5;
+		freq *= 1.23;
+		amp *= 0.75;
 
 
 		float derivative = exp(sin(phase) - 1.0) * cos(phase) * waves[i].frequency * waves[i].amplitude;
@@ -66,7 +69,7 @@ float fbm(){
 	}
 
 	normal = normalize(vec3(-dfdx, 1.0, -dfdz));
-	return sum;
+	return sum/max(norm, 1e-6) ;
 }
 
 

@@ -4,18 +4,28 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 
-//Note come back to this class later dont have time to actually make the class right now.
-
 class Camera {
 
 public:
 	Camera(glm::vec3 pos);
+
+	void setCameraSpeed(float speed);
+	glm::vec3 getPosition();
+
+	void updateViewMatrix();
+	glm::mat4 getViewMatrix();
+
+	void moveUp(float dt);
+	void moveDown(float dt);
+	void moveFoward(float dt);
+	void moveBackward(float dt);
+
+private:
+	float speed;
 
 	glm::vec3 position;
 	glm::vec3 front;
 	glm::vec3 up;
 
 	glm::mat4 view;
-
-
 };
