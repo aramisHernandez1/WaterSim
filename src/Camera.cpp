@@ -45,9 +45,9 @@ void Camera::moveRight(float dt) {
 }
 
 void Camera::moveFoward(float dt) {
-	position += front * (speed * dt);
+	position += (front * (speed * dt));
 }
 
 void Camera::moveBackward(float dt) {
-	position -= front * (speed * dt);
+	position -= (front * (speed * dt));
 }

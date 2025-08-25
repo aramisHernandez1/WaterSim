@@ -11,6 +11,7 @@ Learned how waver works in computer graphics, the sum of sines, the derivative t
 
 TO DO:
 Fix Camera
+Enhance lighting system
 Create domain warping (believe its called this) so waves push against each other
 Try to make the lightning/waves look better (vague)
 Refactor program and classes to make neater
