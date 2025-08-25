@@ -17,6 +17,8 @@ public:
 
 	void moveUp(float dt);
 	void moveDown(float dt);
+	void moveLeft(float dt);
+	void moveRight(float dt);
 	void moveFoward(float dt);
 	void moveBackward(float dt);
 

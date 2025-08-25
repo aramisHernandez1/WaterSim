@@ -29,10 +29,18 @@ glm::mat4 Camera::getViewMatrix() {
 
 //Directional functions for walking camera
 void Camera::moveUp(float dt) {
-	position += glm::normalize(glm::cross(front, up) * (speed * dt));
+	
 }
 
 void Camera::moveDown(float dt) {
+	
+}
+
+void Camera::moveLeft(float dt) {
+	position += glm::normalize(glm::cross(front, up) * (speed * dt));
+}
+
+void Camera::moveRight(float dt) {
 	position -= glm::normalize(glm::cross(front, up) * (speed * dt));
 }
 

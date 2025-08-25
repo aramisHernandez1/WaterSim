@@ -16,7 +16,7 @@ uniform mat4 MVP;
 uniform float time;
 
 
-#define MAX_WAVES 10000
+#define MAX_WAVES 500
 
 uniform int waveCount;
 Wave waves[MAX_WAVES];
@@ -34,6 +34,8 @@ float fbm(){
 	float amp = 0.5;
 	float freq = 1.0;
 	float norm = 0.0;
+
+	float gain = 0.70;
 
 
 	float dfdx = 0.0;
@@ -57,7 +59,7 @@ float fbm(){
 
 		//Modify our next wave in fbm.
 		freq *= 1.23;
-		amp *= 0.75;
+		amp *= gain;
 
 
 		float derivative = exp(sin(phase) - 1.0) * cos(phase) * waves[i].frequency * waves[i].amplitude;

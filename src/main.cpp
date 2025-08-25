@@ -48,9 +48,10 @@ void processed_input(GLFWwindow* window, Camera *camera, float dt) {
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 		camera->moveBackward(dt);
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		camera->moveDown(dt);
+		camera->moveRight(dt);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		camera->moveUp(dt);
+		camera->moveLeft(dt);
+
 }
 
 //Helper method that generates a plane with a whole bunch of vertices, so we can displace the vertices to give us waves and other cool effects.
@@ -184,7 +185,7 @@ int main(void)
 	view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 	camera.updateViewMatrix();
 	
-	int waveCount = 300;
+	int waveCount = 350;
 
 	float currentFrame = 0.0;
 	float deltaTime = 0.0;
@@ -222,14 +223,15 @@ int main(void)
 
 		//glm::mat4 view = glm::mat4(1.0f);
 		//view = glm::translate(view, glm::vec3(0.0f, -1.0f, -20.0f));
+		
+		camera.updateViewMatrix();
 
 		glm::mat4 projection = glm::mat4(1.0f);
 		projection = glm::perspective(glm::radians(45.0f), 640.0f / 480.0f, 0.1f, 100.0f); //Note Idk what the numbers really mean currently, figure this out next time.
 
-		//Will pass the multiplication off all three on a uniform
-		//Multiple on CPU so we dont have to use the bus which is slow I believe.
-		camera.updateViewMatrix();
-		glm::mat4 MVP = projection * camera.getViewMatrix() * model;
+		
+		glm::mat4 view = camera.getViewMatrix();
+		glm::mat4 MVP = projection * view * model;
 		shader.setUniformMatrix4("MVP", MVP, GL_FALSE);
 
 		glm::vec3 lightColor = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -242,17 +244,6 @@ int main(void)
 		shader.setUniformVec3("objectColor", objectColor);
 
 		shader.setUniformInt("waveCount", waveCount);
-
-		/*
-		for (int i = 0; i < waves.size(); i++) {
-			std::string idx = "waves[" + std::to_string(i) + "]";
-
-			shader.setUniformFloat((idx + ".amplitude").c_str(), waves[i].amplitude);
-			shader.setUniformFloat((idx + ".frequency").c_str(), waves[i].frequency);
-			shader.setUniformFloat((idx + ".speed").c_str(), waves[i].speed);
-			shader.setUniformVec2((idx + ".direction").c_str(), waves[i].direction);
-		}
-		*/
 
 
 
