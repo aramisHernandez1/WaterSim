@@ -148,7 +148,7 @@ int main(void)
 	//Setting up our plane with its vertices
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
-	generatePlaneGrid(1000, 1000, 10.0f, vertices, indices);
+	generatePlaneGrid(1000, 1000, 400.0f, vertices, indices);
 
 	
 	Shape plane = Shape(vertices, indices);
@@ -160,9 +160,9 @@ int main(void)
 
 
 	Camera camera = Camera(glm::vec3(0.0f, 1.0f, 10.0f));
-	glm::vec3 cameraPos = glm::vec3(0.0f, 1.0f, 10.0f);
-	glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
-	glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+	glm::vec3 cameraPos = camera.getPosition();
+	//glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+	//glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
 	//glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
 	//glm::vec3 cameraDirection = glm::normalize(cameraPos - cameraTarget); //Direction is pointing in reverse of what we are targeting
@@ -173,8 +173,8 @@ int main(void)
 
 	//glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);
 
-	glm::mat4 view;
-	view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+	//glm::mat4 view;
+	//view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 	camera.updateViewMatrix();
 	
 	int waveCount = 350;

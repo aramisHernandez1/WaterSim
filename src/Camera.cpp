@@ -1,6 +1,6 @@
 #include <Camera.hpp>
 
-
+//Note need to add roations with mouse
 Camera::Camera(glm::vec3 pos) {
 	position = pos;
 	front = glm::vec3(0.0f, 0.0f, -1.0f);
