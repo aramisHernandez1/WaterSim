@@ -35,14 +35,19 @@ static void key_callback(GLFWwindow *window, int key, int scancode, int action, 
 }
 
 void processed_input(GLFWwindow* window, Camera *camera, float dt) {
+
+	//Come back error dont have time.
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		camera->moveFoward(dt);
+		camera->direction = Camera_Movement::FORWARD;
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		camera->moveBackward(dt);
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		camera->moveRight(dt);
+		camera->direction = Camera_Movement::BACKWARD;
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		camera->moveLeft(dt);
+		camera->direction = Camera_Movement::RIGHT;
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		camera->direction = Camera_Movement::LEFT;
+
+
+	camera->processKeyboard(camera->direction, dt);
 
 }
 
@@ -161,20 +166,8 @@ int main(void)
 
 	Camera camera = Camera(glm::vec3(0.0f, 1.0f, 10.0f));
 	glm::vec3 cameraPos = camera.getPosition();
-	//glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
-	//glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
-	//glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
-	//glm::vec3 cameraDirection = glm::normalize(cameraPos - cameraTarget); //Direction is pointing in reverse of what we are targeting
 
-	//Right axis
-	//glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
-	//glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));
-
-	//glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);
-
-	//glm::mat4 view;
-	//view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 	camera.updateViewMatrix();
 	
 	int waveCount = 350;
@@ -213,8 +206,6 @@ int main(void)
 		model = glm::rotate(model, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		model = glm::rotate(model, glm::radians(25.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
-		//glm::mat4 view = glm::mat4(1.0f);
-		//view = glm::translate(view, glm::vec3(0.0f, -1.0f, -20.0f));
 		
 		camera.updateViewMatrix();
 
