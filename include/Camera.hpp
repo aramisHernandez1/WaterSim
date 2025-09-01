@@ -24,8 +24,10 @@ public:
 	glm::mat4 getViewMatrix();
 
 	void processKeyboard(Camera_Movement direction, float dt);
-	void processMouseMovement(float xOffset, float yOffset, GLboolean constrainPitch);
+	void processMouseMovement(float xOffset, float yOffset, GLboolean constrainPitch = true);
 	void processMouseScroll(float yOffset);
+
+	float getZoom();
 
 	Camera_Movement direction; 
 

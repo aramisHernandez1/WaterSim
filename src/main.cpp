@@ -34,22 +34,10 @@ static void key_callback(GLFWwindow *window, int key, int scancode, int action, 
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
 }
 
-void processed_input(GLFWwindow* window, Camera *camera, float dt) {
+void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+void processed_input(GLFWwindow* window);
 
-	//Come back error dont have time.
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		camera->direction = Camera_Movement::FORWARD;
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		camera->direction = Camera_Movement::BACKWARD;
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		camera->direction = Camera_Movement::RIGHT;
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		camera->direction = Camera_Movement::LEFT;
-
-
-	camera->processKeyboard(camera->direction, dt);
-
-}
 
 //Helper method that generates a plane with a whole bunch of vertices, so we can displace the vertices to give us waves and other cool effects.
 static void generatePlaneGrid(int cols, int rows, float size, std::vector<Vertex> &outVerts, std::vector<unsigned int> &outIndices) {
@@ -106,6 +94,20 @@ static void generatePlaneGrid(int cols, int rows, float size, std::vector<Vertex
 }
 
 
+const unsigned int SCREEN_WIDTH = 800;
+const unsigned int SCREEN_HEIGHT = 600;
+
+Camera camera = Camera(glm::vec3(0.0f, 1.0f, 10.0f));
+glm::vec3 cameraPos = camera.getPosition();
+float lastX = SCREEN_WIDTH / 2.0f;
+float lastY = SCREEN_HEIGHT / 2.0f;
+bool firstMouse = true;
+
+int waveCount = 350;
+
+
+float deltaTime = 0.0;
+float lastFrame = 0.0;
 
 
 int main(void)
@@ -135,10 +137,13 @@ int main(void)
 
 	glfwSetKeyCallback(window, key_callback);
 	glfwMakeContextCurrent(window);
+	glfwSetCursorPosCallback(window, mouse_callback);
+	glfwSetScrollCallback(window, scroll_callback);
 
 	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 	glfwSwapInterval(1);
 
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 
 #pragma region report opengl errors to std
@@ -164,17 +169,12 @@ int main(void)
 	shader.loadShaderProgramFromFile(RESOURCES_PATH "vertex.vert", RESOURCES_PATH "fragment.frag");
 
 
-	Camera camera = Camera(glm::vec3(0.0f, 1.0f, 10.0f));
-	glm::vec3 cameraPos = camera.getPosition();
+
 
 
 	camera.updateViewMatrix();
 	
-	int waveCount = 350;
-
 	float currentFrame = 0.0;
-	float deltaTime = 0.0;
-	float lastFrame = 0.0;
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -191,6 +191,7 @@ int main(void)
 		currentFrame = glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
+		processed_input(window);
 
 		//Set time for the fade effect.
 		float time = glfwGetTime();
@@ -210,7 +211,7 @@ int main(void)
 		camera.updateViewMatrix();
 
 		glm::mat4 projection = glm::mat4(1.0f);
-		projection = glm::perspective(glm::radians(45.0f), 640.0f / 480.0f, 0.1f, 100.0f); //Note Idk what the numbers really mean currently, figure this out next time.
+		projection = glm::perspective(glm::radians(camera.getZoom()), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f); //Note Idk what the numbers really mean currently, figure this out next time.
 
 		
 		glm::mat4 view = camera.getViewMatrix();
@@ -233,7 +234,7 @@ int main(void)
 		//Draw all our plane/waves
 		plane.draw();
 
-		processed_input(window, &camera, deltaTime);
+
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
@@ -243,4 +244,41 @@ int main(void)
 	//glfwDestroyWindow(window);
 	//glfwTerminate();
 	return 0;
+}
+
+
+void processed_input(GLFWwindow* window) {
+
+	//Come back error dont have time.
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		camera.processKeyboard(Camera_Movement::FORWARD, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		camera.processKeyboard(Camera_Movement::BACKWARD, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		camera.processKeyboard(Camera_Movement::RIGHT, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		camera.processKeyboard(Camera_Movement::LEFT, deltaTime);
+}
+
+void mouse_callback(GLFWwindow* window, double xposIn, double yposIn) {
+	float xpos = static_cast<float>(xposIn);
+	float ypos = static_cast<float>(yposIn);
+
+	if (firstMouse) {
+		lastX = xpos;
+		lastY = ypos;
+		firstMouse = false;
+	}
+
+	float xoffset = xpos - lastX;
+	float yoffset = lastY - ypos;
+
+	lastX = xpos;
+	lastY = ypos;
+
+	camera.processMouseMovement(xoffset, yoffset);
+}
+
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
+	camera.processMouseScroll(static_cast<float>(yoffset));
 }

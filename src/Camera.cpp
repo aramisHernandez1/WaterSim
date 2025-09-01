@@ -6,9 +6,9 @@
 
 //Default camera values
 const float YAW = -90.0f;
-const float PITCH = 0.0f;
-const float SPEED = 2.5f;
-const float SENSITIVITY = 0.1f;
+const float PITCH = 15.0f;
+const float SPEED = 3.5f;
+const float SENSITIVITY = 10.0f;
 const float ZOOM = 45.0f;
 
 
@@ -38,7 +38,7 @@ void Camera::processKeyboard(Camera_Movement direction, float dt) {
 		position += right * velocity;
 }
 
-void Camera::processMouseMovement(float xOffset, float yOffset, GLboolean constrainPitch = true) {
+void Camera::processMouseMovement(float xOffset, float yOffset, GLboolean constrainPitch) {
 	xOffset *= mouseSensitivity;
 	yOffset *= mouseSensitivity;
 
@@ -98,4 +98,8 @@ glm::vec3 Camera::getPosition() {
 
 glm::mat4 Camera::getViewMatrix() {
 	return view;
+}
+
+float Camera::getZoom() {
+	return zoom;
 }
