@@ -17,7 +17,7 @@ The main point of this project is the learning and not so much the result of thi
   * Used basic Bling Phong lighting model
     * Adding an ambient light, diffuse lighting(I think lambrats diffuse but gotta double check this), and specular lighting.
 
-### Featured Techniques
+## Featured Techniques
 * **Sum of Sines**
   * To create waterlike waves, we use the sum of sines
   * **Sum of Sines**\
