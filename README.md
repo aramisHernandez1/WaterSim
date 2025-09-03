@@ -32,7 +32,7 @@ $$y = f(x, z, t) = \sum_{i=1}^n A_i \sin(\omega_i(d_{ix}x + d_{iz}z) + \phi_i + 
     ### $$\frac{\partial f}{\partial z}(x, z, t) = \sum_{i=1}^{n} A_i \, \omega_i d_{iz} \cos\\Big(\omega_i (d_{ix}x + d_{iz}z) + \phi_i + t \Big)$$
   * We use this partial derivative to set up our tangent vectors.
   * Afterwards, we take the cross product and end up with the vector
-    ### $$\vec{N} = \Big(-\tfrac{\partial f}{\partial x}, \; 1, \; -\tfrac{\partial f}{\partial z}\Big)
+    ### $$\vec{N} = \Big(-\tfrac{\partial f}{\partial x}, \; 1, \; -\tfrac{\partial f}{\partial z}\Big)$$
   
 
 ### TO DO
