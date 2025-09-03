@@ -17,7 +17,7 @@ The main point of this project is the learning and not so much the result of thi
 ### Featured Techniques
 * Sum of Sines
   * To create waterlike waves, we use the sum of sines
-  * Sum of Sines
+  ***Sum of Sines**
 $$\sum_{i=1}^n A_i \sin(\omega_i t + \phi_i)$$
 
 TO DO:
