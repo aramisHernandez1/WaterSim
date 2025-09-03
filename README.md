@@ -28,7 +28,7 @@ $$y = f(x, z, t) = \sum_{i=1}^n A_i \sin(\omega_i(d_{ix}x + d_{iz}z) + \phi_i + 
   * The sum of sines is a great start for our water.
 * Lambiertian diffuse
   * We set up our normal vectors for the water, done by taking the **partial derivative** of our **sum of sines**\
-    $$\frac{\partial f}{\partial x}(x, z, t) = \sum_{i=1}^{n} A_i \, \omega_i d_{ix} \cos\!\Big(\omega_i (d_{ix}x + d_{iz}z) + \phi_i + t \Big)$$
+    $$\Big\frac{\partial f}{\partial x}(x, z, t) = \sum_{i=1}^{n} A_i \, \omega_i d_{ix} \cos\!\Big(\omega_i (d_{ix}x + d_{iz}z) + \phi_i + t \Big)\Big$$
 
 ### TO DO
 * Enhance the lighting system
