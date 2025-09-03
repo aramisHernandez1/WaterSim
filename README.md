@@ -12,8 +12,11 @@ The main point of this project is the learning and not so much the result of thi
 * Learned basic GLSL
   * Creating a vertex shader with multiple data being passed.
   * Using uniforms in both the vertex and fragment shaders.
-  * Using techniques to manipulate meshes (sum of sines for ocean).  
-* Learned how waver works in computer graphics, the sum of sines, the derivative to get the tangent, and bi for vector normals.
+  * Using techniques to manipulate meshes (sum of sines for ocean).
+
+### Featured Techniques
+* Sum of Sines
+  * To create waterlike waves, we use the sum of sines
 
 TO DO:
 Fix Camera
