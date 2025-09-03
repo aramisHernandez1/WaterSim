@@ -23,11 +23,14 @@ The main point of this project is the learning and not so much the result of thi
   * **Sum of Sines**\
 $$\sum_{i=1}^n A_i \sin(\omega_i t + \phi_i)$$\
 Where **$$A_i$$** is the amplitude, **$$\omega_i$$** is the angel **$$t$$** is time, and **$$\phi_i$$** is the phase
+  * The sum of sines is a great start for our water.
+* Lambiertian diffuse
+  * We set up our normal vectors for the water, done by taking the **partial derivative** of our **sum of sines**\
+    $$
 
 ### TO DO
 * Enhance the lighting system
   * Currently, light is just defined as a position that emits light from this position. want to create a light class and emitters so we can visually see the light source.
-* Create domain warping (believe it's called this). This causes the waves to push against each other, making the ocean-like effect more pronounced.
 * Refactor the program and classes to make them neater and organized
 * Add a sun (might relate to the lighting system)
 * Add sky
