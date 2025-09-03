@@ -49,7 +49,7 @@ $$y = f(x, z, t) = \sum_{i=1}^n A_i \sin(\omega_i(d_{ix}x + d_{iz}z) + \phi_i + 
 
   
 
-### TO DO
+# TO DO
 * Enhance the lighting system
   * Currently, light is just defined as a position that emits light from this position. want to create a light class and emitters so we can visually see the light source.
 * Refactor the program and classes to make them neater and organized
