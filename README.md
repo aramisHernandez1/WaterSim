@@ -1,6 +1,6 @@
 # Water Simulation Graphics Project Using OpenGL.
 
-My Main Goals with this project:
+### My Main Goals with this project
 To learn foundational and advanced computer graphics skills while learning and using OpenGL. 
 The main point of this project is the learning and not so much the result of this project.
 
