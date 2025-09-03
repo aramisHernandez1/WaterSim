@@ -1,4 +1,4 @@
-Water Simulation Graphics Project Using OpenGL.
+#H1 Water Simulation Graphics Project Using OpenGL.
 
 My Main Goals with this project:
 To learn foundational and advanced computer graphics skills while learning and using OpenGL. 

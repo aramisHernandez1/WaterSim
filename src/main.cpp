@@ -97,7 +97,7 @@ static void generatePlaneGrid(int cols, int rows, float size, std::vector<Vertex
 const unsigned int SCREEN_WIDTH = 800;
 const unsigned int SCREEN_HEIGHT = 600;
 
-Camera camera = Camera(glm::vec3(0.0f, 1.0f, 10.0f));
+Camera camera = Camera(glm::vec3(0.0f, 0.2f, 4.0f));
 glm::vec3 cameraPos = camera.getPosition();
 float lastX = SCREEN_WIDTH / 2.0f;
 float lastY = SCREEN_HEIGHT / 2.0f;
@@ -128,17 +128,18 @@ int main(void)
 	//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //you might want to do this when testing the game for shipping
 
 
-	GLFWwindow *window = window = glfwCreateWindow(640, 480, "Simple example", NULL, NULL);
+	GLFWwindow *window = window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Simple example", NULL, NULL);
 	if (!window)
 	{
 		glfwTerminate();
 		return -1;
 	}
 
-	glfwSetKeyCallback(window, key_callback);
-	glfwMakeContextCurrent(window);
 	glfwSetCursorPosCallback(window, mouse_callback);
 	glfwSetScrollCallback(window, scroll_callback);
+	glfwSetKeyCallback(window, key_callback);
+	glfwMakeContextCurrent(window);
+
 
 	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 	glfwSwapInterval(1);
@@ -234,7 +235,7 @@ int main(void)
 		//Draw all our plane/waves
 		plane.draw();
 
-
+		
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
