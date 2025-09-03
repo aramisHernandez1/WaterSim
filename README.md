@@ -25,7 +25,7 @@ $$\sum_{i=1}^n A_i \sin(\omega_i + \phi_i + t)$$\
 Where **$$A_i$$** is the amplitude, **$$\omega_i$$** is the angel **$$t$$** is time, and **$$\phi_i$$** is the phase\
 Adding a directional vector, we end up with\
 $$y = f(x, z, t) = \sum_{i=1}^n A_i \sin(\omega_i(d_{ix}x + d_{iz}z) + \phi_i + t)$$
-  * The sum of sines is a great start for our water.
+  * The sum of sines is a great start for our water.\
 * Lambiertian diffuse
   * We set up our normal vectors for the water, done by taking the **partial derivative** of our **sum of sines**\
     ### $$\frac{\partial f}{\partial x}(x, z, t) = \sum_{i=1}^{n} A_i \, \omega_i d_{ix} \cos\\Big(\omega_i (d_{ix}x + d_{iz}z) + \phi_i + t \Big)$$
@@ -33,6 +33,20 @@ $$y = f(x, z, t) = \sum_{i=1}^n A_i \sin(\omega_i(d_{ix}x + d_{iz}z) + \phi_i + 
   * We use this partial derivative to set up our tangent vectors.
   * Afterwards, we take the cross product and end up with the vector
     ### $$\vec{N} = \Big(-\tfrac{\partial f}{\partial x}, \ 1, \ -\tfrac{\partial f}{\partial z}\Big)$$
+  * Now we normalize our normal vector.
+  * Now that we have the normals, we just take the difference between the normals and the light position.\
+* Specular lighting
+* Euler's waves
+  * Regular sum of sines is great, but we replace our sine wave with any different wave function.
+  * Two good wave functions for a more ocean-like wave are two options
+    * **Gerstner Waves**
+      * Gerstner waves work really well; the only downside is that they can loop on themselves, making weird, unrealistic waves if the parameters are not correct.
+    * **Euler Waves**
+      * Euler waves are also a really good wave for replicating the ocean
+      * But they have the benefit of not looping in on themselves, making them much easier to use, making this my wave of choice.
+      * This changes our wave function to
+      $$
+
   
 
 ### TO DO
