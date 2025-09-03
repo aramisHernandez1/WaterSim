@@ -4,10 +4,10 @@
 To learn foundational and advanced computer graphics skills while learning and using OpenGL. 
 The main point of this project is the learning and not so much the result of this project.
 
-Current Acomplishments:
-Learned the basic openGL structure, how to set up a context, buffers, shaders and how to draw basic shapes to the screen.
-Learned basic GLSL such as creating a vertex shader for the ocean
-Learned how waver works in computer graphics, the sum of sines, the derivative to get the tangent and bi for vector normals.
+### Current Accomplishments
+* Learned the basic openGL structure, how to set up a context, buffers, shaders and how to draw basic shapes to the screen.
+* Learned basic GLSL such as creating a vertex shader for the ocean
+* Learned how waver works in computer graphics, the sum of sines, the derivative to get the tangent and bi for vector normals.
 
 TO DO:
 Fix Camera
