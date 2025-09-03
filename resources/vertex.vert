@@ -1,5 +1,12 @@
 #version 330 core
 
+/*
+Some optimizations that may be needed. 
+
+1. Reduce the math inside of this shader, The math for the wave and derivative are very costly on the GPU, computing the math on CPU then passing into gpu may perform better.
+
+*/
+
 layout (location = 0) in vec3 aPos;
 layout (location = 1) in vec3 aNormal;
 
@@ -9,6 +16,8 @@ struct Wave {
 	float frequency;
 	//float speed;
 	vec2 direction; //Only move on the XZ plane so vec2
+
+	float derivative;
 };
 
 
@@ -16,7 +25,7 @@ uniform mat4 MVP;
 uniform float time;
 
 
-#define MAX_WAVES 500
+#define MAX_WAVES 300
 
 uniform int waveCount;
 Wave waves[MAX_WAVES];
@@ -41,10 +50,10 @@ float fbm(){
 	float dfdx = 0.0;
 	float dfdz = 0.0;
 
-	for(int i = 0; i < waveCount; i++){
+	for(int i = 1; i <= waveCount; i++){ //Note start at i = 1 because of domain warping might need to look at better solutions for this problem though.
 		float angle = float(i);
 		vec2 dir = vec2(sin(angle), cos(angle)); //randomish directions
-		Wave currentWave = Wave(amp, freq, dir);
+		Wave currentWave = Wave(amp, freq, dir, 0); //Init derivative to 0 for now will define it late
 		waves[i] = currentWave;
 
 		//float phase = dot(waves[i].direction, aPos.xz) * waves[i].frequency + time * waves[i].speed;
@@ -52,8 +61,9 @@ float fbm(){
 
 		//Our wave function is e^[sin(x)-1]
 		float wave = exp(sin(phase) - 1.0) * waves[i].amplitude;
+		currentWave.derivative = exp(sin(phase) - 1.0) * cos(phase) * waves[i].frequency * waves[i].amplitude;
 
-		sum += wave;
+		sum += wave + waves[i-1].derivative; //Add the previous waves derivatie to give us domain warping
 		norm += amp;
 
 
@@ -62,10 +72,10 @@ float fbm(){
 		amp *= gain;
 
 
-		float derivative = exp(sin(phase) - 1.0) * cos(phase) * waves[i].frequency * waves[i].amplitude;
+		//float derivative = exp(sin(phase) - 1.0) * cos(phase) * waves[i].frequency * waves[i].amplitude;
 
-		dfdx += derivative * waves[i].direction.x;
-		dfdz += derivative * waves[i].direction.y; //Note direction.y is actually the z axis
+		dfdx += currentWave.derivative * waves[i].direction.x;
+		dfdz += currentWave.derivative * waves[i].direction.y; //Note direction.y is actually the z axis
 
 		
 	}

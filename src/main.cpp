@@ -103,7 +103,7 @@ float lastX = SCREEN_WIDTH / 2.0f;
 float lastY = SCREEN_HEIGHT / 2.0f;
 bool firstMouse = true;
 
-int waveCount = 350;
+int waveCount = 300;
 
 
 float deltaTime = 0.0;
