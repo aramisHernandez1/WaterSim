@@ -18,9 +18,7 @@ The main point of this project is the learning and not so much the result of thi
 * Sum of Sines
   * To create waterlike waves, we use the sum of sines
  **The Cauchy-Schwarz Inequality**\
-$$
-\sum_{i=1}^n A_i \sin(\omega_i t + \phi_i)
-$$
+$$\sum_{i=1}^n A_i \sin(\omega_i t + \phi_i)$$
 
 TO DO:
 Fix Camera
