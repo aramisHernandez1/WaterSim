@@ -18,7 +18,7 @@ The main point of this project is the learning and not so much the result of thi
     * Adding an ambient light, diffuse lighting(I think lambrats diffuse but gotta double check this), and specular lighting.
 
 ### Featured Techniques
-* Sum of Sines
+* **Sum of Sines**
   * To create waterlike waves, we use the sum of sines
   * **Sum of Sines**\
 $$\sum_{i=1}^n A_i \sin(\omega_i + \phi_i + t)$$\
@@ -26,7 +26,7 @@ Where **$$A_i$$** is the amplitude, **$$\omega_i$$** is the angel **$$t$$** is t
 Adding a directional vector, we end up with\
 $$y = f(x, z, t) = \sum_{i=1}^n A_i \sin(\omega_i(d_{ix}x + d_{iz}z) + \phi_i + t)$$
   * The sum of sines is a great start for our water.\
-* Lambiertian diffuse
+* **Lambiertian diffuse**
   * We set up our normal vectors for the water, done by taking the **partial derivative** of our **sum of sines**\
     ### $$\frac{\partial f}{\partial x}(x, z, t) = \sum_{i=1}^{n} A_i \, \omega_i d_{ix} \cos\\Big(\omega_i (d_{ix}x + d_{iz}z) + \phi_i + t \Big)$$
     ### $$\frac{\partial f}{\partial z}(x, z, t) = \sum_{i=1}^{n} A_i \, \omega_i d_{iz} \cos\\Big(\omega_i (d_{ix}x + d_{iz}z) + \phi_i + t \Big)$$
@@ -35,8 +35,8 @@ $$y = f(x, z, t) = \sum_{i=1}^n A_i \sin(\omega_i(d_{ix}x + d_{iz}z) + \phi_i + 
     ### $$\vec{N} = \Big(-\tfrac{\partial f}{\partial x}, \ 1, \ -\tfrac{\partial f}{\partial z}\Big)$$
   * Now we normalize our normal vector.
   * Now that we have the normals, we just take the difference between the normals and the light position.\
-* Specular lighting
-* Euler's waves
+* **Specular lighting**
+* **Euler's waves**
   * Regular sum of sines is great, but we replace our sine wave with any different wave function.
   * Two good wave functions for a more ocean-like wave are two options
     * **Gerstner Waves**
