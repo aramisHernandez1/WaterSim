@@ -18,7 +18,7 @@ The main point of this project is the learning and not so much the result of thi
 * Sum of Sines
   * To create waterlike waves, we use the sum of sines
  **The Cauchy-Schwarz Inequality**\
-$$\left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \left( \sum_{k=1}^n b_k^2 \right)$$
+$$\left( \sum_{k=1}^n a_k b_k \right)^2
 
 TO DO:
 Fix Camera
