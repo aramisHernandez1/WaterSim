@@ -13,6 +13,9 @@ The main point of this project is the learning and not so much the result of thi
   * Creating a vertex shader with multiple data being passed.
   * Using uniforms in both the vertex and fragment shaders.
   * Using techniques to manipulate meshes (sum of sines for ocean).
+* Basic Lightning
+  * Used basic Bling Phong lighting model
+    * Adding an ambient light, diffuse lighting(I think lambrats diffuse but gotta double check this), and specular lighting.
 
 ### Featured Techniques
 * Sum of Sines
@@ -21,20 +24,20 @@ The main point of this project is the learning and not so much the result of thi
 $$\sum_{i=1}^n A_i \sin(\omega_i t + \phi_i)$$\
 Where **$$A_i$$** is the amplitude, **$$\omega_i$$** is the angel **$$t$$** is time, and **$$\phi_i$$** is the phase
 
-TO DO:
-Fix Camera
-Enhance lighting system
-Create domain warping (believe its called this) so waves push against each other
-Try to make the lightning/waves look better (vague)
-Refactor program and classes to make neater
-Add a sun
-Make plane larger
-Add fog
-Add sky
+### TO DO
+* Enhance the lighting system
+  * Currently, light is just defined as a position that emits light from this position. want to create a light class and emitters so we can visually see the light source.
+* Create domain warping (believe it's called this). This causes the waves to push against each other, making the ocean-like effect more pronounced.
+* Refactor the program and classes to make them neater and organized
+* Add a sun (might relate to the lighting system)
+* Add sky
+* Add fog
+* Fix Camera
+  * Everything but mouse movement works with the Camera currently.
+* Get IMGui linking to work for the backend side
+  * Get a GUI for the number of waves and other parameters
 
 
-Get IMGui linking to work for the backend side
-Get some GUI for the number of waves and other parameters
 
 
 Resources:
