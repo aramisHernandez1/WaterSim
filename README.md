@@ -19,7 +19,7 @@ The main point of this project is the learning and not so much the result of thi
   * To create waterlike waves, we use the sum of sines
   * **Sum of Sines**\
 $$\sum_{i=1}^n A_i \sin(\omega_i t + \phi_i)$$\
-Where $$A_i$$ is the amplitude, $$\omega_i$$ is the angel t is time, and $$\phi_i$$ is the phase
+Where **$$A_i$$** is the amplitude, **$$\omega_i$$** is the angel **$$t$$** is time, and **$$\phi_i$$** is the phase
 
 TO DO:
 Fix Camera
