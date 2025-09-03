@@ -21,8 +21,10 @@ The main point of this project is the learning and not so much the result of thi
 * Sum of Sines
   * To create waterlike waves, we use the sum of sines
   * **Sum of Sines**\
-$$\sum_{i=1}^n A_i \sin(\omega_i t + \phi_i)$$\
-Where **$$A_i$$** is the amplitude, **$$\omega_i$$** is the angel **$$t$$** is time, and **$$\phi_i$$** is the phase
+$$\sum_{i=1}^n A_i \sin(\omega_i + \phi_i + t)$$\
+Where **$$A_i$$** is the amplitude, **$$\omega_i$$** is the angel **$$t$$** is time, and **$$\phi_i$$** is the phase\
+Adding a directional vector, we end up with\
+$$y = f(x, z, t) = \sum_{i=1}^n A_i \sin(\omega_i(d_{ix}x + d_{iz}z) + \phi_i + t)$$
   * The sum of sines is a great start for our water.
 * Lambiertian diffuse
   * We set up our normal vectors for the water, done by taking the **partial derivative** of our **sum of sines**\
