@@ -45,7 +45,7 @@ $$y = f(x, z, t) = \sum_{i=1}^n A_i \sin(\omega_i(d_{ix}x + d_{iz}z) + \phi_i + 
       * Euler waves are also a really good wave for replicating the ocean
       * But they have the benefit of not looping in on themselves, making them much easier to use, making this my wave of choice.
       * This changes our wave function to\
-      ### $$\exp(\sin(\theta - 1)$$
+      ### $$\e^(\sin(\theta - 1)$$
 
   
 
