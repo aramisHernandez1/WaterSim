@@ -46,6 +46,8 @@ $$y = f(x, z, t) = \sum_{i=1}^n A_i \sin(\omega_i(d_{ix}x + d_{iz}z) + \phi_i + 
       * But they have the benefit of not looping in on themselves, making them much easier to use, making this my wave of choice.
       * This changes our wave function to\
       ### $$e^{(\sin\theta - 1)}$$
+  * **Fractional Brownian Motion**
+    *  
 
   
 
