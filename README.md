@@ -70,3 +70,4 @@ Resources:
 https://catlikecoding.com/unity/tutorials/flow/waves/
 https://www.youtube.com/watch?v=PH9q0HNBjT4&ab_channel=Acerola
 https://developer.nvidia.com/gpugems/gpugems/part-i-natural-effects/chapter-1-effective-water-simulation-physical-models
+https://iquilezles.org/articles/fbm/
