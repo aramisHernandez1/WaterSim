@@ -71,6 +71,4 @@ $$y = f(x, z, t) = \sum_{i=1}^n A_i \sin(\omega_i(d_{ix}x + d_{iz}z) + \phi_i + 
 [https://catlikecoding.com/unity/tutorials/flow/waves/](https://catlikecoding.com/unity/tutorials/flow/waves/)\
 [https://www.youtube.com/watch?v=PH9q0HNBjT4&ab_channel=Acerola](https://www.youtube.com/watch?v=PH9q0HNBjT4&ab_channel=Acerola)\
 [GPU Gems](https://developer.nvidia.com/gpugems/gpugems/part-i-natural-effects/chapter-1-effective-water-simulation-physical-models)\
-[https://iquilezles.org/articles/fbm/](https://iquilezles.org/articles/fbm/)\
-
-[I'm an inline-style link with title](https://www.google.com "Google's Homepage")
+[https://iquilezles.org/articles/fbm/](https://iquilezles.org/articles/fbm/)
