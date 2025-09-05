@@ -47,7 +47,8 @@ $$y = f(x, z, t) = \sum_{i=1}^n A_i \sin(\omega_i(d_{ix}x + d_{iz}z) + \phi_i + 
       * This changes our wave function to\
       ### $$e^{(\sin\theta - 1)}$$
 * **Fractional Brownian Motion**
-   *  
+   *  The main idea of fractional Brownian motion is to reduce the amplitude of our wave, making it less than one. I've called this gain.
+   *  As well as increasing the frequency of our wave, giving each wave a different frequency and amplitude, but also ensuring our amplitude is less than one.
 
   
 
