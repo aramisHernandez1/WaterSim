@@ -87,29 +87,6 @@ float fbm(){
 
 void main()
 {
-	//float displacement = 0.0;
-	//float dfdx = 0.0;
-	//float dfdz = 0.0;
-
-	//for(int i = 0; i < waveCount; i++){
-		
-		//float phase = dot(waves[i].direction, aPos.xz) * waves[i].frequency + time * waves[i].speed;
-
-		//Our wave function is e^[sin(x)-1]
-		//float wave = exp(sin(phase) - 1.0) * waves[i].amplitude;
-
-		//displacement += wave;
-
-		//Our shared derivative, we will then apply the direction in the x and z axises
-		//float derivative = exp(sin(phase) - 1.0) * cos(phase) * waves[i].frequency * waves[i].amplitude;
-		
-		//dfdx += derivative * waves[i].direction.x;
-		//dfdz += derivative * waves[i].direction.y; //Note direction.y is actually the z axis
-		
-	//}
-
-
-	//Offset vertex position in the y-axis.
 	float displacement = fbm();
 	newPos = aPos + vec3(0.0, displacement, 0.0);
 
@@ -117,14 +94,6 @@ void main()
 	gl_Position = MVP * vec4(newPos, 1.0);
 
 
-
-	//This is our tangent taking the cross product gives us a our normal vector. (I think need to research more to make sure, but works and looks good for now.)
-	//vec3 tangentX = normalize(vec3(1.0, dfdx * 0.2, 0.0));
-	//vec3 tangentZ = normalize(vec3(0.0, dfdz * 0.2, 1.0));
-
-	//normal = normalize(vec3(-dfdx, 1.0, -dfdz));
-
-	//Note change the position to new position when fixed the normals.
 	fragPos = newPos;
 
 }
