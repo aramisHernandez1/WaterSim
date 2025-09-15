@@ -69,6 +69,6 @@ $$y = f(x, z, t) = \sum_{i=1}^n A_i \sin(\omega_i(d_{ix}x + d_{iz}z) + \phi_i + 
 
 ### Resources:
 [CatlikeCoding Waves](https://catlikecoding.com/unity/tutorials/flow/waves/)\
-[https://www.youtube.com/watch?v=PH9q0HNBjT4&ab_channel=Acerola](https://www.youtube.com/watch?v=PH9q0HNBjT4&ab_channel=Acerola)\
+[Guide of what to include](https://www.youtube.com/watch?v=PH9q0HNBjT4&ab_channel=Acerola)\
 [GPU Gems](https://developer.nvidia.com/gpugems/gpugems/part-i-natural-effects/chapter-1-effective-water-simulation-physical-models)\
-[https://iquilezles.org/articles/fbm/](https://iquilezles.org/articles/fbm/)
+[Fractional brownian motion](https://iquilezles.org/articles/fbm/)
